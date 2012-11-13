@@ -15,10 +15,10 @@ doc.css('.datatable ul li table tr').each_with_index do |tr, i|
   to = tr.css('td')[3].content.strip
   date_time = Time.parse tr.css('td')[5].content.gsub(/u/, ':')
 
-  if (1..5).include?(date_time.wday)
-    uid_date = date_time - ((date_time.wday - 1) * days) # monday of that week
+  uid_date = if (1..5).include?(date_time.wday)
+    date_time - ((date_time.wday - 1) * days) # monday of that week
   else # 6 & 0 => weekend
-    uid_date = date_time.wday == 0 ? (date_time - (1 * days)) : date_time # saturday of that week
+    date_time.wday == 0 ? (date_time - (1 * days)) : date_time # saturday of that week
   end
   uid = "#{from[0]}#{to[0]}#{(1..5).include?(date_time.wday) ? 'W' : 'WE'}#{uid_date.strftime('%Y%m%d')}"
 
